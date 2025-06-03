@@ -130,11 +130,8 @@ class Backend(BaseBackend):
         """
         # see docutils.parsers.rst.states.Body.footnote()
         name = docutils.nodes.fully_normalize_name(entry.key)
-        footnote = docutils.nodes.footnote(auto=1)
-        footnote['names'].append(name)
+        footnote = docutils.nodes.footnote(auto=2)
         footnote += self.paragraph(entry)
-        document.note_autofootnote(footnote)
-        document.note_explicit_target(footnote, footnote)
         return footnote
 
     def footnote_reference(self, entry, document):
@@ -143,8 +140,6 @@ class Backend(BaseBackend):
         prior to any docutils transforms.
         """
         # see docutils.parsers.rst.states.Body.footnote_reference()
-        refname = docutils.nodes.fully_normalize_name(entry.key)
         refnode = docutils.nodes.footnote_reference(
-            '[#%s]_' % entry.key, refname=refname, auto=1)
-        document.note_autofootnote_ref(refnode)
+            '[#%s]_' % entry.key, refname="refname", auto=1)
         return refnode
